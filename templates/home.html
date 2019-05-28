@@ -1,0 +1,56 @@
+<html>
+		<head>
+				<title>Home</title>
+		</head>
+<body>
+<style type="text/css">
+	table, th, td{
+		border: 1px solid black;
+	}
+
+	.row.display-flex {
+	display: flex;
+	flex-wrap: wrap;
+	}
+
+	.imgdiv{
+    height: 350px;
+    overflow: hidden;
+
+	}
+
+	.brightness img:hover {
+    opacity: .7;
+}
+</style>
+{% extends "bootstrap/base.html" %}
+
+{% include "/navbar.html" %}
+
+{% block content %}
+<div class="alert alert-info">
+	<strong>Your Feed:</strong>
+	<br><br>
+	<div class="container">
+		<div class="row">
+			{% for photo_row in photos | batch(4, '&nbsp;') %}
+				<div class="row">
+					{% for photo in photo_row %}	
+						{% if photo.filePath %}	  
+							<div class="col-md-6">
+								<a class="brightness" href="/photo/{{photo.photoID}}">
+									<div class="thumbnail imgdiv">
+										<img src="/image/{{photo.filePath}}">
+									</div>
+								</a>
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}
+</body>
+</html>

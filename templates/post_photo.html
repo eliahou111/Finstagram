@@ -1,0 +1,70 @@
+<head>
+        <title>Post Photo</title>
+</head>
+<link href="//code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
+<script src="//code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="//code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
+
+{% extends "bootstrap/base.html" %}
+
+{% include "/navbar.html" %}
+
+{% block content %}
+{% if error %}
+<p class="alert alert-warning">{{error}}</p>
+{% endif %}
+
+<form action="/post_photo" method="POST" enctype="multipart/form-data">
+	<div class="form-group col-sm-12 alert-info alert">
+		<label for="photoUpload" class="col-sm-2 control-label">Post Photo</label>
+		<div class="col-sm-5">
+			<input type="hidden" name="photoOwner" value="{{session.username}}">
+			<label for="filepath">Enter Photo here</label>
+			<input type="file" name="imageToUpload" accept="image/*" class="form-control-file">
+			<br>
+			<label for="caption">Write something interesting for the caption</label>
+			<input type="string" name="caption" class="form-control">
+			<br>
+			<label class="form-check-label" >Who can see this?</label>
+			<br>
+			<div class="col-sm-9">
+				<input type="radio" name="allFollowers" class="form-check-input hideGroups" value=1></input>
+				<label for="allFollowers" class="form-check-label" >All Followers</label>
+				<br>
+				<input type="radio" name="allFollowers" class="form-check-input showGroups" value=0 checked></input>
+				<label class="form-check-label" >Specific Groups</label>
+				<small class ="selected col-sm-12">Note: If no group is selected, nobody will be able to see it</small>
+				<br>
+				{% for group in closeFriendGroups %}
+					<br class="selected">
+					&nbsp&nbsp&nbsp&nbsp<input type="checkbox" id="{{group.groupName}}" name="{{group.groupName}}" class="form-check-input selected" value=1></input>
+					<label for="{{group.groupName}}" class="form-check-label selected">Group: {{group.groupName}}</label>
+				{% endfor%}
+			</div>
+		</div>
+		<div class="col-sm-offset-2 col-sm-5">
+			<input class="btn btn-primary" type="submit" value="Post" />
+		</div>
+	</div>
+</form>
+
+<script>
+	$('.hideGroups').change(
+		function(){
+			if($('.hideGroups').is(':checked')){
+				$('.selected').hide();
+				console.log('hide boxes');
+			}	
+		});
+
+	$('.showGroups').change(
+	function(){
+		if($('.showGroups').is(':checked')){
+			$('.selected').show();
+			console.log('show boxes');
+		}	
+	});
+</script>
+{% endblock %}
+
+

@@ -1,0 +1,37 @@
+
+<link href="//code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
+<script src="//code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="//code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
+
+{% extends "bootstrap/base.html" %}
+
+{% block navbar %}
+<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/home">Finstagram</a>
+		</div>
+		<ul class="nav navbar-nav">
+        <li><a href="/manage_follow_requests">Follow Requests</a></li>
+				<li><a href="/manage_tag_requests">Tag Requests</a></li>
+				<li><a href="/close_friend_group">Close Friend Groups</a></li>
+				<li><a href="/submit_photo">Post Photo</a></li>
+		</ul>
+		<form class="navbar-form navbar-left navbar_inverse" action="/person" method="POST">
+			<div class="form-group">
+			  <input type="text" class="form-control" id="autocomplete" name="username" placeholder="Find User">
+			</div>
+    </form>  
+        <ul class="nav navbar-nav navbar-right">
+								{% if session.username %}
+                <li><a href="/person/{{session.username}}"><span class="glyphicon glyphicon-user"></span> Your Account</a></li>
+								{% endif %}
+								{% if not session.username %}
+                <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                {% else %}
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                {% endif %}
+        </ul>
+	</div>
+</nav>
+{% endblock %}

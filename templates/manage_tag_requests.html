@@ -1,0 +1,55 @@
+<html>
+		<head>
+        <title>Manage Tag Requests</title>
+</head>
+<body>
+
+<style type="text/css">
+
+
+.table-striped>tbody>tr:nth-child(odd)>td{
+   background-color: lightblue;
+ }
+
+ .row.center-block {
+    max-width: 500px;
+}
+
+.profilePicture {
+  border-radius: 50%;
+  height:50;
+  width:50;
+}
+
+</style>
+{% extends "bootstrap/base.html" %}
+
+{% include "/navbar.html" %}
+
+{% block content %}
+
+<h3>Tag Requests:</h3>
+<table class="table table-striped vert-aligned" style="width:600px">
+{% for photo in tag_list %}
+	<tr>
+		<td><img src="/image/{{photo.filePath}}" style="max-height:250px; max-width: 250px;"></td>
+		<td style="vertical-align:middle">
+			<form action="/accept_tag_request" method="POST">
+				<input type="hidden" name="photoID" value="{{photo.photoID}}">
+				<input type="submit" value = Accept />
+			</form>
+		</td>
+		<td style="vertical-align:middle">
+			<form action="/decline_tag_request" method="POST">
+				<input type="hidden" name="photoID" value="{{photo.photoID}}">
+				<input type="submit" value = Decline />
+			</form>
+		</td>
+	</tr>
+{% endfor %}
+</table>
+<br>
+
+{% endblock %}
+</body>
+</html>

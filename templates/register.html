@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <title>Register</title>
+	</head>
+	<body>
+		{% extends "bootstrap/base.html" %}
+
+		{% include "/navbar.html" %}
+
+		{% block content %}
+		<div>
+			<form action="/registerAuth" method="post" enctype="multipart/form-data">
+				<div class="form-group col-sm-12 alert-info alert">
+				<label for="register" class="col-sm-2 control-label">Register</label>
+				<div class="col-sm-5">
+					<label for="username" class="form-check-label">Username:</label>
+					<input type="text" name="username" class='form-control' required/>
+					<br/>
+					<label for="password" class="form-check-label">Password:</label>
+					<input type="password" name="password" class='form-control' required/>
+					<br/>
+					<label for="fname" class="form-check-label">First Name:</label>
+					<input type="text" name="fname" class='form-control' required/>
+					<br/>
+					<label for="lname" class="form-check-label">Last Name:</label>
+					<input type="text" name="lname" class='form-control' required/>
+					<br>
+					<label for="avatar">Upload A Profile Picture</label>
+					<input type="file" name="avatar" accept="image/*" class="form-control-file">
+					<br>
+					<label for="bio" class="form-check-label">Tell Us About Yourself:</label>
+					<input type="text" name="bio" placeholder="Bio" class='form-control'/>
+					<br>
+					<input type="radio" name="isPrivate" class="form-check-input" value=0 checked></input>
+					<label for="allFollowers" class="form-check-label" >Public Account</label>
+					<br>
+					<input type="radio" name="isPrivate" class="form-check-input" value=1></input>
+					<label class="form-check-label" >Private Account</label>
+					<br>
+					<div class="col-sm-offset-0 col-sm-0">
+							<input class="btn btn-primary" type="submit" value="Register" />
+					</div>
+				</div>
+			</form>
+		</div>
+		{% if error %}
+			{{ error }}
+		{% endif %}
+		{% endblock %}
+	</body>
+</html>

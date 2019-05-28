@@ -1,0 +1,47 @@
+<html>
+		<head>
+        <title>Close Friend Groups</title>
+</head>
+<body>
+
+<style type="text/css">
+
+
+    .table-striped>tbody>tr:nth-child(odd)>td{
+       background-color: lightblue;
+     }
+</style>
+{% extends "bootstrap/base.html" %}
+
+{% include "/navbar.html" %}
+
+{% block content %}
+
+{% if error %}
+<p class="alert alert-warning">{{error}}</p>
+{% endif %}
+
+{% for group in closeFriendGroups %}
+    <h3 style="margin-left:2px;">{{group.groupName}}</h3>
+    <table class="table vert-aligned table-striped" style="width:600px; margin-left:20px;">
+            <th>
+                Members:
+            </th>
+            {% for user in users %}
+                {% if user.groupName == group.groupName %}
+                <tr>
+                    <td>
+                        {{user.username}}
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+    </table>
+    <form action="/add_person_to_group" method="POST" style="margin-left:20px; width:300px;">
+        <input type="hidden" name="groupName" value="{{group.groupName}}" class="form-control">
+        <input type="text" name="username" placeholder="Add Member" required>
+        <input type="submit">
+    </form>
+    {% endfor %}
+
+{% endblock %}

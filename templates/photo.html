@@ -1,0 +1,51 @@
+<html>
+        <head>
+                <title>Photo</title>
+        </head>
+<body>
+<style type="text/css">
+    .displayed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto }
+
+    .blocktext {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50em
+    
+}
+</style>
+{% extends "bootstrap/base.html" %}
+
+{% include "/navbar.html" %}
+
+{% block content %}
+<div class="thumbnail displayed alert alert-info">
+    <img src="/image/{{photo.filePath}}" style="max-height: 600px; max-width: 900px; min-width: 450px; min-height:450px;">
+        <div class="caption">
+            <p class="blocktext"><strong>Posted By: </strong>{{photo.fname}} {{photo.lname}}</p>
+            <p class="blocktext"><strong>Caption: </strong>{{photo.caption}}</p>
+            <p class="blocktext"><strong>Date: </strong>{{photo.timestamp.strftime('%h %d, %Y %H:%M')}}</p>
+            <p class="blocktext"><strong>Tagged:</strong></p>
+            {% for tag in tagged %}
+                {% if tag.photoID==photo.photoID%}
+                    <p class="blocktext">{{tag.fname}} {{tag.lname}}</p>
+                {%endif%}
+            {% endfor%}
+            {% if message %}
+                <br>
+                <p class="alert alert-warning blocktext">{{message}}</p>
+                {% endif %}
+            <form action="/request_tag" method="POST">
+                <p class="blocktext">
+                    <input type="text" name="tagee" placeholder="Tag someone" required>
+                    <input type="hidden" name="photoID" value="{{photo.photoID}}">
+                    <input type="submit">
+                </p>
+            </form>
+        </div>
+</div>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,84 @@
+<html>
+		<head>
+				<title>Person</title>
+		</head>
+<body>
+<style type="text/css">
+
+	.row.display-flex {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+	.imgdiv{
+    height: 350px;
+    overflow: hidden;
+}
+
+	.profilePicture {
+  border-radius: 50%;
+  height:100;
+  width:100;
+}
+
+.brightness img:hover {
+    opacity: .7;
+}
+</style>
+{% extends "bootstrap/base.html" %}
+
+{% include "/navbar.html" %}
+
+{% block content %}
+<div class="alert alert-info">
+	{%if person.avatar %}
+		<img class="profilePicture" src="/image/{{person.avatar}}"> <strong>@{{person.username}} </strong>
+	{% else %}
+	<img class="profilePicture" src="https://www.watsonmartin.com/wp-content/uploads/2016/03/default-profile-picture.jpg"> <strong>@{{person.username}} </strong>
+	{% endif %}
+<br>
+<br>
+<strong>{{person.fname}} {{person.lname}}	</strong>
+<br>
+<strong>Bio: </strong>{{person.bio}}
+<br>
+<br>
+{% if not session.username==person.username %}
+<form action="/request_to_follow" method="POST">
+	<input type="hidden" name=followeeUsername value="{{person.username}}">
+	{% if not follow %}
+		<button type="submit" class="btn btn-primary">Follow</button>
+	{% elif follow.acceptedfollow==0 %}
+		<button type="button" class="btn btn-primary no-click">Requested</button>
+	{% else %}
+	<button type="button" class="btn btn-primary no-click">Following</button>
+	{% endif %}
+</form>
+<br>
+<br>
+{% endif %}
+
+<div class="container">
+		<div class="row">
+			{% for photo_row in photos | batch(4, '&nbsp;') %}
+				<div class="row">
+					{% for photo in photo_row %}	
+						{% if photo.filePath %}	  
+							<div class="col-md-6">
+								<a class="brightness" href="/photo/{{photo.photoID}}">
+									<div class="thumbnail imgdiv">
+										<img src="/image/{{photo.filePath}}" height="350">
+									</div>
+								</a>
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+</body>
+</html>

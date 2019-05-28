@@ -1,0 +1,70 @@
+<html>
+<head>
+</head>
+<body>
+<style type="text/css">
+	table, th, td{
+		border: 1px solid black;
+	}
+
+	.row.display-flex {
+	display: flex;
+	flex-wrap: wrap;
+	}
+
+	.imgdiv{
+    height: 350px;
+    overflow: hidden;
+}
+	.imgdiv2{
+		height: 350px;
+		overflow: hidden;
+	}
+</style>
+{% extends "bootstrap/base.html" %}
+
+{% include "/navbar.html" %}
+
+{% block content %}
+<div class="alert alert-info">
+	<strong>Your Feed:</strong>
+	<br>
+	<br>  
+	<div class="container">
+		<div class="row">
+			{% for photo_row in photos | batch(3, '&nbsp;') %}
+				<div class="row">
+					{% for photo in photo_row %}	
+						{% if photo.filePath %}	  
+							<div class="col-md-4">
+								<div class="thumbnail imgdiv">
+									<a href="{{photo.filePath}}" target=_blank>
+										
+									<div class="thumbnail imgdiv2">
+										<img src="{{photo.filePath}}" height="500" width="500">
+									</div>
+										<div class="caption">
+											<p>{{photo.caption}}</p>
+											{% for tag in tagged %}
+												{% if tag.photoID==photo.photoID%}
+													<p>@{{tag.username}}</p>
+												{%endif%}
+											{% endfor%}
+											<p>{{photo.timestamp.strftime('%h %d, %Y %H:%M')}}</p>
+										</div>
+									</a>
+								</div>
+								
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}
+</body>
+
+
+</html>

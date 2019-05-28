@@ -1,0 +1,36 @@
+<html>
+		<head>
+				<title>Login</title>
+			</head>
+<body>
+{% extends "bootstrap/base.html" %}
+
+{% include "/navbar.html" %}
+{% block content %}
+
+<form action="/loginAuth" method="POST">
+		<div class="form-group col-sm-12 alert-info alert">
+			{% if loginError %}
+				<p class="alert alert-warning">{{loginError}}</p>
+			{% endif %}
+			<div class="col-md-4">
+				<h3>Login</h3>
+				<input type="text" class="form-control" name = "username" placeholder="username" required/> </br>
+				<input type="password" class="form-control" name = "password" placeholder="password" required/></br>
+				<input type="submit" class="btn-submit" value = Login />
+				<br><br>
+				<a href="/register">Create An Account</a>
+				{% if error %}
+				<br><br>
+				<p class="alert alert-danger"><strong>Error:</strong> {{error}}</p>
+				{% endif %}
+			</div>
+		</div>
+
+</form>
+
+{% endblock %}
+</body>
+
+
+</html>

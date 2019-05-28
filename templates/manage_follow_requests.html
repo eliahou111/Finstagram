@@ -1,0 +1,62 @@
+<html>
+		<head>
+        <title>Manage Follow Requests</title>
+</head>
+<body>
+
+<style type="text/css">
+
+
+.table-striped>tbody>tr:nth-child(odd)>td{
+   background-color: lightblue;
+ }
+
+ .row.center-block {
+    max-width: 500px;
+}
+
+.profilePicture {
+  border-radius: 50%;
+  height:50;
+  width:50;
+}
+
+</style>
+{% extends "bootstrap/base.html" %}
+
+{% include "/navbar.html" %}
+
+
+{% block content %}
+<h3>Follow Requests:</h3>
+<table class="table table-striped vert-aligned" style="width:600px">
+{% for person in follower_list %}
+	<tr>
+		<td>
+			{%if person.avatar %}
+				<a href="/person/{{person.username}}" ><img class="profilePicture" src="/image/{{person.avatar}}"> <strong>@{{person.username}} </strong></a>
+			{% else %}
+			<a href="/person/{{person.username}}"><img class="profilePicture" src="https://www.watsonmartin.com/wp-content/uploads/2016/03/default-profile-picture.jpg"> <strong>@{{person.username}} </strong></a>
+			{% endif %}
+		</td>
+		<td style="vertical-align:middle">{{person.fname}} {{person.lname}}</td>
+		<td style="vertical-align:middle">
+			<form action="/accept_follow_request" method="POST">
+				<input type="hidden" name="followerUsername" value="{{person.followerUsername}}">
+				<input type="submit" value = Accept />
+			</form>
+		</td>
+		<td style="vertical-align:middle">
+			<form action="/decline_follow_request" method="POST">
+				<input type="hidden" name="followerUsername" value="{{person.followerUsername}}">
+				<input type="submit" value = Decline />
+			</form>
+		</td>
+	</tr>
+{% endfor %}
+</table>
+<br>
+
+{% endblock %}
+</body>
+</html>
